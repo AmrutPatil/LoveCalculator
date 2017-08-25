@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/angular.min.js"></script>
+
+<body style="background: pink">
+
+    <nav class="navbar navbar-dark navbar-inverse">
+        <a class="navbar-brand" href="">Love Calculator <span class="glyphicon glyphicon-heart" style="color: red"></span></a>
+    </nav>
+    <div class="container" ng-app="myApp" ng-controller="myCtrl">
+        <div ng-hide="flag" class="col-xs-12 text-center">
+            <form ng-submit="calculate()">
+               <label>Your Name <input type="text" ng-model="first" class="form-control"></label><br><br>
+               <label>Partner's Name <input type="text" ng-model="second" class="form-control"></label><br>
+               <label class="alert-warning fade" ng-class="{in:(!first||!second)&&submitted}">Please enter names.</label><br><br>
+               <button class="btn-success btn" type="submit" ng-click="submitted=true">Calculate <span class="glyphicon glyphicon-heart" style="color: red"></span></button>
+               <!--<button class="btn-danger btn" ng-click="exit();">Exit <span class="glyphicon glyphicon-log-out"></span></button>-->
+            </form>
+        </div>
+
+        <div ng-class="{in:flag}" class="col-xs-12 text-center fade">
+            <label>{{first}}, {{second}}</label><br><br>
+            <label>{{percentage}}%</label><br><br>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                     aria-valuemin="0" aria-valuemax="100" style="{{'width:'+percentage+'%'}}">
+                    {{percentage}}%
+                </div>
+            </div>
+            <button class="btn-success btn" ng-click="back()">Back</button>
+            <!--<button class="btn-danger btn" ng-click="exit();">Exit <span class="glyphicon glyphicon-log-out"></span></button>-->
+        </div>
+    </div>
+    <nav class="navbar navbar-dark navbar-fixed-bottom navbar-inverse">
+        <a class="navbar-brand" href="">Love Calculator <span class="glyphicon glyphicon-heart" style="color: red"></span></a>
+    </nav>
+
+</body>
+</html>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope) {
+        $scope.first= "";
+        $scope.second= "";
+        $scope.flag = false;
+        $scope.submitted = false;
+        $scope.percentage = 0;
+        $scope.calculate = function() {
+            if ($scope.first&&$scope.second) {
+                $scope.flag = true;
+                var full_name = $scope.first + $scope.second;
+                var unique_char_total = 0;
+                var unique = "";
+                for (var i = 0; i < full_name.length; i++) {
+                    if (unique.indexOf(full_name[i]) == -1) {
+                        unique_char_total += full_name.charCodeAt(i);
+                        unique += full_name[i];
+                    }
+                }
+                $scope.percentage = unique_char_total%101;
+            }
+        }
+        $scope.exit = function() {
+            navigator.device.exitApp();
+        }
+        $scope.back = function() {
+            $scope.first= "";
+            $scope.second= "";
+            $scope.flag = false;
+            $scope.submitted = false;
+        }
+
+        document.addEventListener("backbutton", function (e) {
+            if ($scope.flag) {
+                e.preventDefault();
+                $scope.back();
+            }
+        }, false);
+    });
+</script>

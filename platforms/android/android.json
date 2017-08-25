@@ -1,0 +1,39 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"ExitApp\"><param name=\"android-package\" value=\"cordova.custom.plugins.exitapp.ExitApp\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova.custom.plugins.exitapp": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "id": "cordova.custom.plugins.exitapp.exitApp",
+            "file": "plugins/cordova.custom.plugins.exitapp/www/ExitApp.js",
+            "pluginId": "cordova.custom.plugins.exitapp",
+            "merges": [
+                "navigator.app"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova.custom.plugins.exitapp": "1.0.0"
+    }
+}
